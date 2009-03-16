@@ -1,5 +1,5 @@
 VERSION=0.3rc2
-DISTRO_FILES=chrome.manifest content defaults install.rdf README
+DISTRO_FILES=chrome.manifest content skin defaults install.rdf README
 
 .PHONY: clean distro
 
