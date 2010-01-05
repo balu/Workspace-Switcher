@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<overlay id="wss-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="WorkspaceSwitcher.js"/>
+  <toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton id="workspace-switcher-button"
+		   label="Switch workspace"
+		   accesskey="s"
+		   oncommand="WorkspaceSwitcher.run();"/>
+  </toolbarpalette>
+</overlay>
