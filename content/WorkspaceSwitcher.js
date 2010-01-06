@@ -72,7 +72,15 @@ var WorkspaceSwitcher = {
 	var browser = Components.classes["@mozilla.org/appshell/window-mediator;1"].
 	getService(Components.interfaces.nsIWindowMediator).getMostRecentWindow('navigator:browser').getBrowser();
 
-	this.nWorkspaces = 2; // number of workspaces
+	var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+	.getService(Components.interfaces.nsIPrefService)
+	.getBranch("wss.");
+	prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+		
+	this.nWorkspaces = prefs.getIntPref("num_wss");
+
+	debugPrint("num = " + this.nWorkspaces);
+	
 	this.currentWorkspace = 0;
 	this.workspaces = new Array(this.nWorkspaces); // array of workspaces
 	var i;
@@ -134,6 +142,18 @@ var WorkspaceSwitcher = {
 
     run: function() {
 	this.switchTo(this.currentWorkspace, this.next(this.currentWorkspace));
+
+
+	// code to flash new workspace id
+ 	var newDiv = window.content.document.createElement("div");
+ 	newDiv.innerHTML = "<b>" + this.currentWorkspace + "</b>";
+
+ 	var body = window.content.document.body;
+ 	body.insertBefore(newDiv, body.firstChild);
+
+	// Now remove the message after 3 seconds
+	var clearWSLabel = "var body = window.content.document.body; body.removeChild(body.firstChild);";
+	setTimeout(clearWSLabel, 3000);
     },
 
     handleTabSelect: function(e) {
