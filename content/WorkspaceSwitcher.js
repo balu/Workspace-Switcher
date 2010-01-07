@@ -140,13 +140,11 @@ var WorkspaceSwitcher = {
 	this.printState();
     },
 
-    run: function() {
-	this.switchTo(this.currentWorkspace, this.next(this.currentWorkspace));
-
-
+    showWSSwitch: function() {
 	// code to flash new workspace id
  	var newDiv = window.content.document.createElement("div");
  	newDiv.innerHTML = "<b>" + this.currentWorkspace + "</b>";
+	newDiv.id = "wss-label";
 
  	var body = window.content.document.body;
  	body.insertBefore(newDiv, body.firstChild);
@@ -154,6 +152,11 @@ var WorkspaceSwitcher = {
 	// Now remove the message after 3 seconds
 	var clearWSLabel = "var body = window.content.document.body; body.removeChild(body.firstChild);";
 	setTimeout(clearWSLabel, 3000);
+    },
+
+    run: function() {
+	this.switchTo(this.currentWorkspace, this.next(this.currentWorkspace));
+	this.showWSSwitch(); // Notify user about the switch
     },
 
     handleTabSelect: function(e) {
