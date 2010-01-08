@@ -9,7 +9,10 @@
 - Drag and Drop "Switch Workspace" button to toolbar
 - Now restart firefox
 - Click the button or "alt-s" to switch between two workspaces
+- Tools > Add-ons > Workspace Switcher > Preferences to change preferences
 
 Notes: -
        1) If the toolbar buttons are displayed as icons only, the
        	  workspace switcher button won't be visible.
+       2) Preference change requires restart.
+       3) Firefox needs to be restarted after placing button in toolbar.
