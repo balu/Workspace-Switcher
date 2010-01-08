@@ -1,0 +1,15 @@
+== How to install
+- Download the file wss-<version>.xpi
+- Drag and Drop onto firefox
+- Install the add-on when prompted
+
+== How to use
+- Right-click on toolbar > Customize
+- Select "Text" or "Icons and Text"
+- Drag and Drop "Switch Workspace" button to toolbar
+- Now restart firefox
+- Click the button or "alt-s" to switch between two workspaces
+
+Notes: -
+       1) If the toolbar buttons are displayed as icons only, the
+       	  workspace switcher button won't be visible.
