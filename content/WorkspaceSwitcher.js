@@ -140,18 +140,25 @@ var WorkspaceSwitcher = {
 	this.printState();
     },
 
+    // Flash the current workspace to user
     showWSSwitch: function() {
-	// code to flash new workspace id
- 	var newDiv = window.content.document.createElement("div");
- 	newDiv.innerHTML = "<b>" + this.currentWorkspace + "</b>";
-	newDiv.id = "wss-label";
+	// User is notified by a label above tabbrowser
+	var label = document.getElementById("wss-label");
+	var appcontent = document.getElementById("appcontent");
 
- 	var body = window.content.document.body;
- 	body.insertBefore(newDiv, body.firstChild);
+	if(label == null) { // if label doesn't exist
+	    label = document.createElement("label"); // create
+	    appcontent.insertBefore(label, appcontent.firstChild); // and add to GUI
+	} else { // label exists
+	    clearTimeout(this.showWSSwitch.clearLabelTimeout); // We are going to paint over it, don't remove now
+	}
 
+	label.setAttribute("value", "Workspace " + this.currentWorkspace);
+	label.id = "wss-label";
+	label.control = "content";
 	// Now remove the message after 3 seconds
-	var clearWSLabel = "var body = window.content.document.body; body.removeChild(body.firstChild);";
-	setTimeout(clearWSLabel, 3000);
+	var clearWSLabel = "var appcontent = document.getElementById(\"appcontent\"); var label = document.getElementById(\"wss-label\"); appcontent.removeChild(label); ";
+	this.showWSSwitch.clearLabelTimeout = setTimeout(clearWSLabel, 3000);
     },
 
     run: function() {

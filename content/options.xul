@@ -11,7 +11,7 @@
     </preferences>
 
     <hbox align="center">
-      <label control="symbol" value="Number of Workspaces: "/>
+      <label control="symbol" value="Number of Workspaces (requires restart): "/>
       <textbox preference="wss_nws" id="num_wss"
 	       type="number"
 	       min="1" max="99" value="2" wraparound="true"
