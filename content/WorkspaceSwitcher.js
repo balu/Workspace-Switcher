@@ -88,8 +88,14 @@ var WorkspaceSwitcher = {
 	    {
 		this.workspaces[i] = new Array(); // each workspace is an array of tabs
 	    }
-	this.workspaces[0].push(browser.selectedTab); // TODO:- add multiple tabs if open
-	this.workspaces[0].selected = browser.selectedTab;
+
+	this.workspaces[0].push(browser.selectedTab);
+	this.workspaces[0].selected = browser.selectedTab;	
+	for(i = 0;i < browser.tabContainer.itemCount;++i) {
+	    if(browser.tabContainer.getItemAtIndex(i) != browser.selectedTab) {
+		this.workspaces[0].push(browser.tabContainer.getItemAtIndex(i));
+	    }
+	}
 
 	// add blank tab to all other workspaces
 	for(i = 1;i < this.nWorkspaces;++i) {
