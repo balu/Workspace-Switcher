@@ -1,8 +1,11 @@
 VERSION=0.3
+DISTRO_FILES=chrome.manifest content defaults install.rdf README
+
 .PHONY: clean distro
 
 clean:
 	rm -rf *~ content/*~ wss.xpi
 distro:
 	mkdir -p downloads
-	zip -r downloads/wss-${VERSION}.xpi *
+	rm -rf downloads/wss-${VERSION}.xpi
+	zip -r downloads/wss-${VERSION}.xpi ${DISTRO_FILES}
