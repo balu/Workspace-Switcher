@@ -16,7 +16,7 @@
     <!-- Name of extension's primary developer -->
     <em:creator>Balagopal Komarath</em:creator>
     <!-- Web page address through which extension is distributed -->
-    <em:homepageURL></em:homepageURL>
+    <em:homepageURL>http://github.com/balu/Workspace-Switcher</em:homepageURL>
     <!-- This section gives details of the target application for the extension -->
     <em:targetApplication>
       <Description>
