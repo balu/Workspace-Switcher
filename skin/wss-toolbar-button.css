@@ -1,0 +1,11 @@
+#workspace-switcher-button {
+  -moz-box-orient: vertical;
+  -moz-box-pack: end;
+}
+#workspace-switcher-button {
+  list-style-image: url("chrome://workspaceswitcher/skin/wss_btn_large.png");
+}
+
+toolbar[iconsize="small"] #workspace-switcher-button {
+  list-style-image: url("chrome://workspaceswitcher/skin/wss_btn_small.png");
+}
