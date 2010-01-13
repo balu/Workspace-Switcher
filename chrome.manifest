@@ -1,2 +1,4 @@
 content workspaceswitcher content/
+skin workspaceswitcher classic/1.0 skin/
 overlay chrome://browser/content/browser.xul chrome://workspaceswitcher/content/wss.xul
+style chrome://workspaceswitcher/content/wss.xul chrome://workspaceswitcher/skin/wss-toolbar-button.css

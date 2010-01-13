@@ -1,9 +1,14 @@
 <?xml version="1.0"?>
+<?xml-stylesheet type="text/css"
+  href="chrome://workspaceswitcher/skin/wss-toolbar-button.css"?>
+
 <overlay id="wss-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="WorkspaceSwitcher.js"/>
   <toolbarpalette id="BrowserToolbarPalette">
     <toolbarbutton id="workspace-switcher-button"
-		   label="Switch workspace"
+		   image="chrome://workspaceswitcher/skin/wss_btn_large.png"
+		   flex="0"
+		   label="Switch"
 		   accesskey="s"
 		   oncommand="WorkspaceSwitcher.run();"/>
   </toolbarpalette>
