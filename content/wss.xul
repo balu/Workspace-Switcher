@@ -12,4 +12,11 @@
 		   accesskey="s"
 		   oncommand="WorkspaceSwitcher.run();"/>
   </toolbarpalette>
+
+  <statusbar id="status-bar">
+    <statusbarpanel id="wss-status-panel"
+		    tooltiptext="Current workspace"
+		    />
+  </statusbar>
+
 </overlay>

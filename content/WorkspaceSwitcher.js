@@ -118,6 +118,8 @@ var WorkspaceSwitcher = {
 
 	this.currentWorkspace = 0; // Start off @ first workspace
 
+	this.showWS();
+
 	this.printState();
     },
 
@@ -158,29 +160,14 @@ var WorkspaceSwitcher = {
     },
 
     // Flash the current workspace to user
-    showWSSwitch: function() {
-	// User is notified by a label above tabbrowser
-	var label = document.getElementById("wss-label");
-	var appcontent = document.getElementById("appcontent");
-
-	if(label == null) { // if label doesn't exist
-	    label = document.createElement("label"); // create
-	    appcontent.insertBefore(label, appcontent.firstChild); // and add to GUI
-	} else { // label exists
-	    clearTimeout(this.showWSSwitch.clearLabelTimeout); // We are going to paint over it, don't remove now
-	}
-
-	label.setAttribute("value", "Workspace " + this.currentWorkspace);
-	label.id = "wss-label";
-	label.control = "content";
-	// Now remove the message after 3 seconds
-	var clearWSLabel = "var appcontent = document.getElementById(\"appcontent\"); var label = document.getElementById(\"wss-label\"); appcontent.removeChild(label); ";
-	this.showWSSwitch.clearLabelTimeout = setTimeout(clearWSLabel, 3000);
+    showWS: function() {
+	var wssstat = document.getElementById("wss-status-panel");
+	wssstat.label = "Workspace " + this.currentWorkspace;
     },
 
     run: function() {
 	this.switchTo(this.currentWorkspace, this.next(this.currentWorkspace));
-	this.showWSSwitch(); // Notify user about the switch
+	this.showWS(); // Notify user about the switch
     },
 
     handleTabSelect: function(e) {
