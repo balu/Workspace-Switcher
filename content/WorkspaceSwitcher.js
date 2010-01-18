@@ -40,7 +40,7 @@
 
 // End of design
 
-var debug = false;
+var debug = true;
 
 var debugPrint = function(msg)
 {
@@ -77,47 +77,56 @@ var WorkspaceSwitcher = {
 	debugPrint(str);
     },
 
-    init: function(e) {
+    populateWS: function() {
        	// This is a reference to the browser
 	// This has methods loadTabs(), addTab(), removeTab() to manipulate tabs
 	var browser = Components.classes["@mozilla.org/appshell/window-mediator;1"].
 	getService(Components.interfaces.nsIWindowMediator).getMostRecentWindow('navigator:browser').getBrowser();
-
+	
 	var prefs = Components.classes["@mozilla.org/preferences-service;1"]
 	.getService(Components.interfaces.nsIPrefService)
 	.getBranch("wss.");
 	prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-		
+	
 	this.nWorkspaces = prefs.getIntPref("num_wss");
-
+	
 	debugPrint("num = " + this.nWorkspaces);
 	
 	this.currentWorkspace = 0;
 	this.workspaces = new Array(this.nWorkspaces); // array of workspaces
 	var i;
 	for(i = 0;i < this.workspaces.length;++i)
-	    {
-		this.workspaces[i] = new Array(); // each workspace is an array of tabs
-	    }
-
-	this.workspaces[0].push(browser.selectedTab);
-	this.workspaces[0].selected = browser.selectedTab;	
-	for(i = 0;i < browser.tabContainer.itemCount;++i) {
-	    if(browser.tabContainer.getItemAtIndex(i) != browser.selectedTab) {
-		this.workspaces[0].push(browser.tabContainer.getItemAtIndex(i));
-	    }
+	{
+	    this.workspaces[i] = new Array(); // each workspace is an array of tabs
 	}
-
+	
+	for(i = 0;i < browser.tabContainer.itemCount;++i) {
+	    var tab = browser.tabContainer.getItemAtIndex(i);
+	    if(tab.wsnum == 'undefined') {
+		tab.wsnum = 0;
+	    } else if(tab.wsnum >= this.nWorkspaces) {
+		tab.wsnum = this.nWorkspaces - 1;
+	    }
+	    debugPrint(tab.wsnum);
+	    this.workspaces[tab.wsnum].push(tab);		    
+	}
+	
 	// add blank tab to all other workspaces
 	for(i = 1;i < this.nWorkspaces;++i) {
-	    this.currentWorkspace = i; // Switch workspace so that handleTabOpen works properly
-	    var tab = browser.addTab("about:blank");
-	    this.workspaces[i].selected = tab;
-	    tab.hidden = true;
+	    if(this.nTabs(i) == 0) {
+		this.currentWorkspace = i; // Switch workspace so that handleTabOpen works properly
+		var tab = browser.addTab("about:blank");
+		this.workspaces[i].selected = tab;
+		tab.hidden = true;
+	    }
 	}
+    },
+    
+    init: function(e) {
+	this.populateWS();
 
 	this.currentWorkspace = 0; // Start off @ first workspace
-
+	browser.selectedTab = this.workspaces[0][0];
 	this.showWS();
 
 	this.printState();
@@ -198,10 +207,12 @@ var WorkspaceSwitcher = {
 	// This has methods loadTabs(), addTab(), removeTab() to manipulate tabs
 	var browser = Components.classes["@mozilla.org/appshell/window-mediator;1"].
 	getService(Components.interfaces.nsIWindowMediator).getMostRecentWindow('navigator:browser').getBrowser();
+	var tab = e.originalTarget;
 
 	debugPrint('open');
 
-	this.workspaces[this.currentWorkspace].push(e.originalTarget);
+	this.workspaces[this.currentWorkspace].push(tab);
+	tab.wsnum = this.currentWorkspace;
 
 	this.printState();
     },
