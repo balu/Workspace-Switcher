@@ -40,7 +40,7 @@
 
 // End of design
 
-var debug = true;
+var debug = false;
 
 var debugPrint = function(msg)
 {
@@ -102,13 +102,13 @@ var WorkspaceSwitcher = {
 	
 	for(i = 0;i < browser.tabContainer.itemCount;++i) {
 	    var tab = browser.tabContainer.getItemAtIndex(i);
-	    if(tab.wsnum == 'undefined') {
+	    if(tab.wsnum == undefined) {
 		tab.wsnum = 0;
 	    } else if(tab.wsnum >= this.nWorkspaces) {
 		tab.wsnum = this.nWorkspaces - 1;
 	    }
 	    debugPrint(tab.wsnum);
-	    this.workspaces[tab.wsnum].push(tab);		    
+	    this.workspaces[tab.wsnum].push(tab);
 	}
 	
 	// add blank tab to all other workspaces
@@ -123,7 +123,15 @@ var WorkspaceSwitcher = {
     },
     
     init: function(e) {
+	var browser = Components.classes["@mozilla.org/appshell/window-mediator;1"].
+	getService(Components.interfaces.nsIWindowMediator).getMostRecentWindow('navigator:browser').getBrowser();
+	var ss = Components.classes["@mozilla.org/browser/sessionstore;1"].getService(Components.interfaces.nsISessionStore);
+
+	ss.persistTabAttribute("wsnum");
+
 	this.populateWS();
+
+	
 
 	this.currentWorkspace = 0; // Start off @ first workspace
 	browser.selectedTab = this.workspaces[0][0];
@@ -209,9 +217,15 @@ var WorkspaceSwitcher = {
 	getService(Components.interfaces.nsIWindowMediator).getMostRecentWindow('navigator:browser').getBrowser();
 	var tab = e.originalTarget;
 
-	debugPrint('open');
+	debugPrint('open' + tab.wsnum + this.currentWorkspace);
 
-	this.workspaces[this.currentWorkspace].push(tab);
+	// If a tab is opened by firefox (during startup) tab.wsnum already
+	// contains a valid workspace . So add tab to that workspace.
+	if(tab.wsnum == undefined) { // else if normal open
+	    tab.wsnum = this.currentWorkspace; // default to current workspace
+	}
+
+	this.workspaces[tab.wsnum].push(tab);
 	tab.wsnum = this.currentWorkspace;
 
 	this.printState();
